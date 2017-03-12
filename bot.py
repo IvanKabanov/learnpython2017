@@ -19,9 +19,21 @@ def greet_user(bot, update):
 def show_error(bot, update, error):
     print(error)
 
+def get_answer(question):
+    answers = {
+        'привет': 'И тебе привет!',
+        'как дела?': 'Отлично!',
+        'до свидания': 'Пока',
+        'что делаешь?': 'Отвечаю на глупые вопросы'
+        }
+    lower_question = question.lower()
+    print(answers.get(lower_question, 'Don\'t understand you!'))
+    return answers.get(lower_question, 'Don\'t understand you!')
+
 def talk_to_me(bot, update):
     print(update.message.text)
-    bot.sendMessage(update.message.chat_id, update.message.text)
+    bot.sendMessage(update.message.chat_id, get_answer(update.message.text))
+
 
 
 
