@@ -6,7 +6,6 @@ def main():
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", greet_user))
     dp.add_handler(MessageHandler([Filters.text], talk_to_me))
-
     dp.add_error_handler(show_error)
     updater.start_polling()
     updater.idle()
@@ -27,8 +26,8 @@ def get_answer(question):
         'что делаешь?': 'Отвечаю на глупые вопросы'
         }
     lower_question = question.lower()
-    print(answers.get(lower_question, 'Don\'t understand you!'))
-    return answers.get(lower_question, 'Don\'t understand you!')
+    print(answers.get(lower_question, "Don\'t understand you!"))
+    return answers.get(lower_question, "Don\'t understand you!")
 
 def talk_to_me(bot, update):
     print(update.message.text)
