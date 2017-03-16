@@ -1,4 +1,5 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+import ephem
 
 #Main function to connect with bot, conecting to bot, wait for messages
 def main():
@@ -6,6 +7,7 @@ def main():
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", greet_user))
     dp.add_handler(CommandHandler("help", help_message))
+    dp.add_handler(CommandHandler("planet", planet_constellation, pass_args = True))
     dp.add_handler(MessageHandler([Filters.text], talk_to_me))
     dp.add_error_handler(show_error)
     updater.start_polling()
@@ -16,10 +18,13 @@ def greet_user(bot, update):
     #print(update)
     bot.sendMessage(update.message.chat_id, text='Давай общаться!')
 
-def help_message(bot, update)
+def help_message(bot, update):
     print("Вызван /help")
     bot.sendMessage(update.message.chat_id, text=
-        '/start Задайте вопрос!')
+        '\n /start - поздороваться'
+        '\n/help - вывести это сообщение'
+        '\nЗадайте вопрос!'
+        )
 
 def show_error(bot, update, error):
     print(error)
@@ -40,6 +45,14 @@ def talk_to_me(bot, update):
     print(update.message.text)
     bot.sendMessage(update.message.chat_id, get_answer(update.message.text))
 
+def planet_constellation(bot, update, args):
+    planet_input = ' '.join(args).capitalize()
+    print(planet_input)
+    planet_func = getattr(ephem, planet_input)()
+    planet_func.compute()
+    planet_answer = ephem.constellation(planet_func)
+    bot.sendMessage(update.message.chat_id, text = 'Planet {} in {} now.'.format(planet_input, planet_answer[1]))        
+    
 
-if __name__ == __main__:
+if __name__ == "__main__":
     main()

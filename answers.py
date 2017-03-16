@@ -3,9 +3,10 @@ def get_answer(question):
     lower_question = question.lower()
     print(answers.get(lower_question, 'Don\'t understand you!'))
     return answers.get(lower_question)
-    
-user_question = input('Enter question ')
-get_answer(user_question)
+
+if __name__ == __main__:
+    user_question = input('Enter question ')
+    get_answer(user_question)
 
 
 
