@@ -16,8 +16,8 @@ def show_error(bot, update, error):
 
 def next_fullmoon(bot, update):
     input_string = update.message.text.lower()
-    if input_string[-1] == '?':
-        input_string = input_string[0:-1]
+    if input_string[-1] == '?': 
+       input_string = input_string[0:-1]
     if input_string[0:33] == 'когда ближайшее полнолуние после ':
         input_string = input_string[33:]
     
