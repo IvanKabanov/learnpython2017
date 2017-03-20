@@ -56,6 +56,21 @@ def planet_constellation(bot, update, args):
     except AttributeError:
         bot.sendMessage(update.message.chat_id, text = 'Provide planet name in English, please!')
 
+def next_fullmoon(bot, update):
+    input_string = update.message.text.lower()
+    if input_string[-1] == '?':
+        input_string = input_string[0:-1]
+    if input_string[0:33] == 'когда ближайшее полнолуние после ':
+        input_string = input_string[33:]
+
+    try:
+        date_check = datetime.date(int(input_string[0:4]), int(input_string[5:7]), int(input_string[8:]))
+        bot.sendMessage(update.message.chat_id, text = 'Next fool moon after {}: {}'.format(input_string, ephem.next_full_moon(input_string)))
+    except (ValueError, TypeError):
+        print('something gone wrong')
+        bot.sendMessage(update.message.chat_id, text = 'Пример: Когда ближайшее полнолуние после 2016-10-01?')        
+
+
 
 if __name__ == "__main__":
     main()
