@@ -1,7 +1,14 @@
-names_list = ["Вася", "Маша", "Петя", "Валера", "Саша", "Даша"]
+names_list = ["Вася", "Маша", "Петя", "" "Саша", "Даша"]
 
-while names_list[0] != 'Валера':
-    names_list.pop(0)
+while names_list:
+    check_valera = names_list.pop()
+    if check_valera == 'Валера':
+        print("Валера нашелся!")
 
-print("Валера Нашелся!")
+   
     
+    
+
+            
+
+
