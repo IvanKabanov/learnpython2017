@@ -1,4 +1,5 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram import replykeyboardmarkup, inlinekeyboardmarkup
 
 #Main function to connect with bot, conecting to bot, wait for messages
 def main():
@@ -6,7 +7,7 @@ def main():
     dp = updater.dispatcher
     dp.add_handler(CommandHandler("start", greet_user))
     dp.add_handler(CommandHandler("help", help_message))
-    dp.add_handler(MessageHandler([Filters.text], calculator))
+    dp.add_handler(MessageHandler(Filters.text, calculator))
     dp.add_error_handler(show_error)
     updater.start_polling()
     updater.idle()
@@ -31,36 +32,49 @@ def show_error(bot, update, error):
 #    if 
 
 def calculator(bot, update):
-    print(update.message.text)
-    calc_task_list = []
-    symbol_count = 0
-
+        
+    #print(update.message.text)
+    #calc_task_list = []
+    #symbol_count = 0
+    
     if update.message.text[-1] == "=": #Проверяем пробелы на концах и =
-        calc_task = update.message.text[0:-1]
-        print(calc_task)
-        for symbol in calc_task:
-            calc_task_list.append(symbol)
-            symbol_count = symbol_count + 1
-            if symbol == '+' or symbol == '-' or symbol == "*" or symbol == "/":
-                symbol_number = symbol_count - 1
-                operator = calc_task_list[symbol_number]
-                print(operator)
-
-        arg1 = int(calc_task[0:symbol_number])
-        print(arg1)
-        arg2 = int(calc_task[symbol_number+1:])
-        print(arg2)
-        if calc_task_list[symbol_number] == "+":
+        calc_task = update.message.text[:-1] #Changed from [0:-1]
+        #calc_task_list = list(calc_task)
+        #for symbol in calc_task:
+        #    calc_task_list.append(symbol)
+        #    symbol_count = symbol_count + 1
+        #    if symbol in ['+', '-', "*", "/"]:
+        #        symbol_number = symbol_count - 1
+        #        operator = symbol
+        if '+' in calc_task:
+            operator = '+'
+            arg1, arg2 = calc_task.split('+', maxsplit=1)
+        elif '-' in calc_task:
+            operator = '-'
+            arg1, arg2 = calc_task.split('-', maxsplit=1)
+        elif '*' in calc_task:
+            operator = '*'
+            arg1, arg2 = calc_task.split('*', maxsplit=1)
+        elif '/' in calc_task:
+            operator = '/'
+            arg1, arg2 = calc_task.split('/', maxsplit=1)
+        else:
+            bot.sendMessage(update.message.chat_id, text='No operator found')
+        #arg1 = int(calc_task[0:symbol_number])
+        #arg2 = int(calc_task[symbol_number+1:])
+        arg1 = int(arg1)
+        arg2 = int(arg2)
+        if operator == "+":
             result = arg1 + arg2
-        elif calc_task_list[symbol_number] == "-":
+        elif operator == "-":
             result = arg1 - arg2    
-        elif calc_task_list[symbol_number] == "*":
+        elif operator == "*":
             result = arg1 * arg2    
-        elif calc_task_list[symbol_number] == "/":
+        elif operator == "/":
             result = arg1 / arg2
         bot.sendMessage(update.message.chat_id, text='{}'.format(result))                
                 
-        print(calc_task_list)
+        #print(calc_task_list)
              
             
 

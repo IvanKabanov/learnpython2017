@@ -1,6 +1,6 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from past.builtins import execfile
-
+from cities import cities
 
 
 #Main function to connect with bot, conecting to bot, wait for messages
@@ -30,7 +30,7 @@ def help_message(bot, update):
 def show_error(bot, update, error):
     print(error)
 
-execfile('cities.py')
+#execfile('cities.py')
 
 cities = [element.lower() for element in cities]
 response_last_letter = " "

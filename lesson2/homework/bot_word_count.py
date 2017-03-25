@@ -38,8 +38,8 @@ def get_answer(question):
         'что делаешь?': 'Отвечаю на глупые вопросы'
         }
     lower_question = question.lower()
-    print(answers.get(lower_question, "Don\'t understand you!"))
-    return answers.get(lower_question, "Don\'t understand you!")
+    print(answers.get(lower_question, "Don't understand you!"))
+    return answers.get(lower_question, "Don't understand you!")
 
 def talk_to_me(bot, update):
     print(update.message.text)
