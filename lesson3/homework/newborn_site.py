@@ -1,5 +1,5 @@
 import requests
-from flask import Flask
+from flask import Flask, abort, request
 
 app = Flask(__name__)
 
@@ -14,49 +14,28 @@ def index():
 
 @app.route("/names")
 def newborn_names():
+    years = [2015, 2016, 2017]
+    try:
+        newborn_year = int(request.args.get('year')) if int(request.args.get('year')) in years else 'all'
+    except:
+        newborn_year = 'all'
     names_list = get_newborn_names('http://api.data.mos.ru/v1/datasets/2009/rows')
     output_table = '<table><tr>'
-    for key in names_list[0]['Cells'].keys():
-        output_table += '<th>   {}    </th>'.format(key)
+    for key in names_list[0]['Cells']:
+        output_table += '<th><h3><align="justify">{}</align></h3></th>'.format(key)
     output_table += '</tr>'
     for num in names_list:
-        #newborn_name = num['Cells']['Name']
-        #newborn_year = num['Cells']['Year']
-        #newborn_month = num['Cells']['Month']
-        #newborn_count = num['Cells']['NumberOfPersons']
-        #print('Имя: {}, Год: {}, Месяц: {}, Кол-во новорожденных: {}'.format(newborn_name, newborn_year, newborn_month, newborn_count))
         name_dict = num['Cells']
         value_html = ''
-        for value in name_dict.values():
-            value_html += '<td>{}   </td>'.format(value)
-            #print('{}: {}'.format(key, value))
-        output_table += '<tr><center>   {}  </center></tr>'.format(value_html)
+        if name_dict['Year'] == newborn_year or newborn_year == 'all':
+            for value in name_dict.values():
+                value_html += '<td><align="justify">{}</align></td>'.format(value)
+            output_table += '<tr><align="justify">{}</align></tr>'.format(value_html)
     output_table += '</table>'
     return output_table
 
 
-
-
-
-
-
-
-   # for num in names_list:
-        #newborn_name = num['Cells']['Name']
-        #newborn_year = num['Cells']['Year']
-        #newborn_month = num['Cells']['Month']
-        #newborn_count = num['Cells']['NumberOfPersons']
-        #print('Имя: {}, Год: {}, Месяц: {}, Кол-во новорожденных: {}'.format(newborn_name, newborn_year, newborn_month, newborn_count))
-    #    for key, value in num[]        
-
-    #return names_list
-
-
-
-
-
 if __name__ == "__main__":
-    #get_newborn_names('http://api.data.mos.ru/v1/datasets/2009/rows')
     app.run()
 
     
