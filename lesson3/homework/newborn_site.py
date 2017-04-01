@@ -16,8 +16,9 @@ def index():
 def newborn_names():
     years = [2015, 2016, 2017]
     try:
-        newborn_year = int(request.args.get('year')) if int(request.args.get('year')) in years else 'all'
-    except:
+        year_input_data = int(request.args.get('year'))
+        newborn_year = year_input_data if year_input_data in years else 'all'
+    except (TypeError, ValueError):
         newborn_year = 'all'
     names_list = get_newborn_names('http://api.data.mos.ru/v1/datasets/2009/rows')
     output_table = '<table><tr>'
