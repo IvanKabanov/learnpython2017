@@ -11,12 +11,11 @@ with open ('bus_stops.csv', 'r', encoding = 'utf8') as bus_stops:
         else: 
             streets_dict[street] = 1    
 
-value_numbers = []
-for key, value in streets_dict.items():
-    value_numbers.append(value)
-    
-max_stops = max(value_numbers)
-
+max_stops_tuple = ()
+max_stops = 1
 for street, stops_count in streets_dict.items():
-    if stops_count == max_stops:
-        print('Больше всего остановок на улице {}. Там {} остановок'.format(street, stops_count))
+    if stops_count > max_stops:
+        max_stops_tuple = (street, stops_count)
+        max_stops = stops_count
+
+print('Больше всего остановок на улице {}. Там {} остановок'.format(max_stops_tuple[0], max_stops_tuple[1]))
